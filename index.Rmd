@@ -1,0 +1,21 @@
+---
+title: "Computational Biology"
+author: "*Natalia Aristizabal*"
+date: "*8/29/2018*"
+output: html_document
+---
+
+# Initial website for GitHub project
+#### Fall 2018
+
+## My homeworks 
+
+#### August 29 - homework 1
+
+
+
+### useful links
+
+
+
+### contact info
