@@ -14,8 +14,4 @@ output: html_document
 
 
 
-### useful links
-
-
-
-### contact info
+#### [September 5 - homework 2](hw2.html)
