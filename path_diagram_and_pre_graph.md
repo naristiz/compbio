@@ -28,8 +28,9 @@ In yellow, my independent variables, in purple, my dependent variables and in bl
 
 Below are some pre-graphs to show how variables relate to one another, or my predictions.
 
-![alt](/Users/Nati/Desktop/compbio/pregraph1.JPG)
+![alt](/Users/Nati/Desktop/compbio/compbio/pregraph1.JPG)
+
+![pregraph2](/Users/Nati/Desktop/compbio/compbio/pregraph2.JPG)
 
 
 
-![pregraph2](/Users/Nati/Desktop/compbio/pregraph2.JPG)
