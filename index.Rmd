@@ -14,4 +14,4 @@ output: html_document
 
 
 
-#### [September 5 - homework 2](hw2.html)
+#### [September 5 - homework 2](path_diagram_and_pre_graph.html)
