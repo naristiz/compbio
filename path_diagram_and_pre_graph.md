@@ -1,7 +1,7 @@
 ```mermaid
 graph TB
 A(climate conditions) --> D(Bird and bee communities)
-B(management) --> D
+B(farm's management) --> D
 C(natural habitat) --> D
 D --> E(pest control and pollination services)
 E --> F(coffee quality)
