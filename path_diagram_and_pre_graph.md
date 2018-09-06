@@ -26,7 +26,7 @@ In yellow, my independent variables, in purple, my dependent variables and in bl
 
 
 
-Below are some pre-graphs to show I predict the variables will behave.
+Below are some pre-graphs to show how I predict the variables will behave.
 
 ![alt](/Users/Nati/Desktop/compbio/compbio/pregraph1.JPG)
 
