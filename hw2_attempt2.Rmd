@@ -1,0 +1,18 @@
+---
+title: "hw2"
+author: "Natalia Aristizabal"
+date: "9/11/2018"
+output: html_document
+---
+![](flowchart.png)
+
+My main question is: How will climate change and forest loss affect the ecological processes that benefit coffee production? The flowchart above shows the variables I am interested in measuring and how they influence each other. In other words, the flowcharts show the hypotheses I am starting to come up with. 
+
+In yellow, my independent variables, in purple, my dependent variables and in blue the hopeful outcome of my research program. 
+
+
+
+Below are some pre-graphs to show how I predict the variables will behave.
+
+![pregraph](pregraph1.JPG)
+![pregraph](pregraph2.JPG)

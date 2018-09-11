@@ -14,4 +14,4 @@ output: html_document
 
 
 
-#### [September 5 - homework 2](test2.html)
+#### [September 5 - homework 2](hw2_attempt2.html)
