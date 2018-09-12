@@ -1,0 +1,83 @@
+---
+title: "Landscape structure influences pest control by ants in sun-coffee farms"
+author: "Natalia Aristizabal"
+date: "September 12, 2018"
+output: 
+  beamer_presentation: 
+    colortheme: orchid
+    fonttheme: structurebold
+    theme: Montpellier
+---
+
+## R Markdown
+
+I just had my first first-author scientific paper accepted for publication and I'm stoked. I want to share the main findings of my work with my academic peers and non-scientific audiences. 
+
+## Main questions
+
+- \color{orange}How does landscape structure affect pest control by ants in sun-exposed coffee farms?
+\bigskip
+- \color{purple}What ecological processes are behind "pest control by ants" and how are they affected differently by land-use change?
+\bigskip
+- \color{blue}Are ecological processes affected at different scales?
+
+## Hypothesis
+
+- \color{orange}Forest loss will decrease pest control services provided by ants
+\bigskip
+- \color{purple}Ants will defend more coffee plants and predate more on coffee borer beetle with increasing forest cover
+\bigskip
+- \color{blue}Results will be scale-dependent 
+
+
+## How did we answer these questions?
+
+ \begin{picture}(320,250)
+ \put(0,120){\includegraphics[height=4cm]{coffee_farm.jpg}}
+ \put(160,120){\includegraphics[height=3.5cm]{exclusion_branch.jpg}}
+ \put(10,90){\begin{minipage}[t]{1\linewidth}
+ {We set camp in sun-exposed coffee farms in Brazil and followed one year of coffee production. We set up ant-exclusion traps to compare abundance of \textit{coffee berry borer} with and without ants as indicators of the ecological proceses involved in pest control by ants.}
+ \end{minipage}}
+ \end{picture}
+
+## We controlled for 
+
+> - \color{purple}farm management
+\bigskip
+> - \color{yellow}coffee variety
+\bigskip
+
+
+## We manipulated 
+
+> - presence/absence of ants
+\bigskip
+> - forest cover in 2 km radii around ant-exclusion experiments
+\bigskip
+> - forest cover in 300 m radii around ant-exclusion experiments
+\bigskip
+> - coffee cover in 300 m radii around ant-exclusion experiments
+\bigskip
+> - distance to nearest forest fragment from ant-exclusion experiments 
+
+## Main results
+
+...
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+Stay tuned! As soon as the paper is officially online and ready to be shared, I'll update this slide. For now an example of a coffee berry borer attacking coffee beans on next slide.
+
+
+## Pest system 
+
+  \begin{picture}(320,250)
+ \put(10,100){\includegraphics[height=5cm]{cbb_coffee.jpg}}
+ \put(20,150){\begin{minipage}[t]{0.8\linewidth}
+ {\color{white}Coffee berry borer, or CBB, is considered the worst coffee pest. Females drill galleries on coffee beans to lay eggs, which then feed off the bean.}
+ \end{minipage}}
+ \end{picture}

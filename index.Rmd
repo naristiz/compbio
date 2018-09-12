@@ -10,8 +10,9 @@ output: html_document
 
 ## My homeworks 
 
-#### August 29 - homework 1
 
+####  Homework 1 - August 29
 
+#### [Homework 2 - September 5](hw2_attempt2.html)
 
-#### [September 5 - homework 2](hw2_attempt2.html)
+#### [Homework 3 - September 11](markdown_beamer_presentations_hw3.pdf)
