@@ -5,7 +5,9 @@ date: "*8/29/2018*"
 output: html_document
 ---
 
-# Initial website for GitHub project
+# University of Vermont
+
+#### Bio381 class projects
 #### Fall 2018
 
 ## My homeworks 
