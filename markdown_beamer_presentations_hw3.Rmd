@@ -33,10 +33,10 @@ I just had my first first-author scientific paper accepted for publication and I
 ## How did we answer these questions?
 
  \begin{picture}(320,250)
- \put(0,120){\includegraphics[height=4cm]{coffee_farm.jpg}}
- \put(160,120){\includegraphics[height=3.5cm]{exclusion_branch.jpg}}
- \put(10,90){\begin{minipage}[t]{1\linewidth}
- {We set camp in sun-exposed coffee farms in Brazil and followed one year of coffee production. We set up ant-exclusion traps to compare abundance of \textit{coffee berry borer} with and without ants as indicators of the ecological proceses involved in pest control by ants.}
+ \put(0,135){\includegraphics[height=4cm]{coffee_farm.jpg}}
+ \put(160,135){\includegraphics[height=3.5cm]{exclusion_branch.jpg}}
+ \put(10,120){\begin{minipage}[t]{1\linewidth}
+ {We set camp in sun-exposed coffee farms in Brazil and followed one year of coffee production. We set up 300 ant-exclusion traps in ten 2-km radii landscapes that varied in forest cover and compare abundance of \textbf{coffee berry borer, CBB} with and without ants. We measured CBB at three different stages as indicators of the different ecological proceses involved in pest control by ants.}
  \end{minipage}}
  \end{picture}
 
@@ -48,7 +48,7 @@ I just had my first first-author scientific paper accepted for publication and I
 \bigskip
 
 
-## We manipulated 
+## Independent variables and landscape metrics
 
 > - presence/absence of ants
 \bigskip
@@ -76,8 +76,8 @@ Stay tuned! As soon as the paper is officially online and ready to be shared, I'
 ## Pest system 
 
   \begin{picture}(320,250)
- \put(10,100){\includegraphics[height=5cm]{cbb_coffee.jpg}}
- \put(20,150){\begin{minipage}[t]{0.8\linewidth}
+ \put(30,100){\includegraphics[height=5cm]{cbb_on_branch.jpg}}
+ \put(35,150){\begin{minipage}[t]{0.8\linewidth}
  {\color{white}Coffee berry borer, or CBB, is considered the worst coffee pest. Females drill galleries on coffee beans to lay eggs, which then feed off the bean.}
  \end{minipage}}
  \end{picture}
