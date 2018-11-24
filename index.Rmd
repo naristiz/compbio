@@ -5,7 +5,7 @@ date: "*8/29/2018*"
 output: html_document
 ---
 
-# University of Vermont
+## University of Vermont
 
 #### Bio381 class projects
 #### Fall 2018
@@ -18,3 +18,9 @@ output: html_document
 #### [Homework 2 - September 5](hw2_attempt2.html)
 
 #### [Homework 3 - September 11](markdown_beamer_presentations_hw3.pdf)
+
+#### [Homework 4 - September 19](hw4_sept_Natalia_A.html)
+
+#### [Homework 5 - September 26](hw5_sept26_Natalia_A.html)
+
+

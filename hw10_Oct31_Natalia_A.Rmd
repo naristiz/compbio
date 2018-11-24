@@ -1,0 +1,184 @@
+---
+title: 'Homework #10'
+author: "Natalia Aristizábal"
+date: "10/31/2018"
+output: html_document
+---
+1. Using a for loop, write a function to calculate the number of zeroes in a numeric vector. Before entering the loop, set up a counter variable counter <- 0. Inside the loop, add 1 to counter each time you have a zero in the matrix. Finally, use return(counter) for the output.
+```{r, echo=TRUE}
+# libraries
+library(dplyr)
+
+vec<-rbinom(20, 1, 0.5)
+
+count <- function(a=vec){
+  counter <- 0 
+  for(i in seq_along(a)){
+    if(a[i]==0) counter <- counter + 1 
+  }
+   return(counter)
+}
+
+count()
+```
+
+2. Use subsetting instead of a loop to rewrite the function as a single line of code.
+```{r, echo=TRUE}
+
+x=rbinom(20, 1, 0.5)
+
+count_zeroes <- function(a=x) {
+  zeros <- length(a[a==0])
+  return(zeros)
+}
+  
+count_zeroes()
+```
+
+3. Write a function that takes as input two integers representing the number of rows and columns in a matrix. The output is a matrix of these dimensions in which each element is the product of the row number x the column number.
+
+```{r, echo=TRUE}
+# FUNCTION: making a matrix
+# INPUTS: two integers representing the number of rows and columns in a matrix
+# OUTPUTS: matrix of these dimensions in which each element is the product of the row number x the column number.
+
+mat_fun <- function(numbrows=7, numbcols=9){
+  m <- matrix(nrow = numbrows, ncol = numbcols)
+  for(i in 1:nrow(m)) {
+  for(j in 1:ncol(m)) {
+    m[i,j] <-  i * j 
+  } 
+} 
+    return(m) 
+}
+
+mat_fun()
+```
+
+4. Use the code from yesterday’s class to design and conduct a randomization test for some of your own data. You will need to modify the functions that read in the data, calculate the metric, and randomize the data. Once those are set up, the program should run correctly calling your new functions. Also, to make your analysis fully repeatable, make sure you set the random number seed at the beginning (use either set.seed() in base R, or char2seed in the TeachingDemos package
+```{r, echo=TRUE}
+library(ggplot2)
+library(TeachingDemos)
+set.seed(1000)
+
+
+# random data from previous homework
+x <- rnorm(n=10,mean=5,sd=2) 
+noise <- rnorm(n=10, sd=2) 
+y <- 5.5 + x*10 + noise 
+
+
+# function readData
+readData <- function(z=NULL){
+  if(is.null(z)){
+    xObs <- x
+    yObs <- y
+    dF <- data.frame(ID=seq_along(xObs),
+                     xObs,
+                     yObs)} else {
+                       dF <- read.table(file=z,
+                                        row.names = 1, 
+                                        header=TRUE,
+                                        sep=",",
+                                        stringsAsFactors = FALSE)}
+  return(dF)
+}
+
+readData()
+
+# function to calculate the metric
+getMetric <- function(z=NULL){
+  if(is.null(z)){
+    xObs <- x
+    yObs <- y
+    z <- data.frame(ID=seq_along(xObs),
+                    xObs,
+                    yObs)}
+  . <- lm(z[,3]~z[,2])    
+  . <- summary(.)
+  . <- .$coefficients[2,4]  
+  slope <- .
+  return(slope)
+}
+
+getMetric()
+
+# create the randomization
+shuffleData <- function(z=NULL){
+  if(is.null(z)){
+    xObs <- x
+    yObs <- y
+    z <- data.frame(ID=seq_along(xObs),
+                    xObs,
+                    yObs)}
+  z[,3] <- sample(z[,3])
+  return(z)
+}
+
+shuffleData()
+```
+
+5.For comparison, calculate in R the standard statistical analysis you would use with these data. How does the p-value compare for the standard test versus the p value you estimated from your randomization test? If the p values seem very different, run the program again with a different starting seed (and/or increase the number of replications in your randomization test). If there are persistent differences in the p value of the standard test versus your randomization, what do you think is responsible for this difference?
+```{r, echo=TRUE}
+p_val <- function(z=NULL){
+  if(is.null(z)){
+    xObs <- x
+    yObs <- y
+    z <- data.frame(ID=seq_along(xObs),
+                    xObs,
+                    yObs)}
+  z[,3] <- sample(z[,3])
+  . <- lm(z[,3]~z[,2])
+  . <- summary(.)
+  . <- .$coefficients[2,4]
+  pVal <- .
+  return(pVal)
+}
+
+p_val()
+
+
+# calculate p value from simulated metrics
+
+getPVal <- function(z=NULL){
+    z <- list(xObs=runif(1),xSim=runif(1000))
+pLower <- mean(z[[2]] <= z[[1]])
+pUpper <- mean(z[[2]] >= z[[1]])
+return(c(pLower,pUpper))
+}
+
+getPVal()
+
+# function: plotRanTest
+# create ggplot of histogram of simulated values
+# input: list of observed metric and vector of simulated metrics
+# output: saved ggplot graph
+#------------------------------------------------- 
+plotRanTest <- function(z=NULL) {
+                if(is.null(z)){
+                  z <- list(rnorm(1),rnorm(1000)) }
+dF <- data.frame(ID=seq_along(z[[2]]),simX=z[[2]])
+p1 <- ggplot(data=dF,mapping=aes(x=simX))
+p1 + geom_histogram(mapping=aes(fill=I("goldenrod"),color=I("black"))) +
+geom_vline(aes(xintercept=z[[1]],col="blue")) 
+
+}
+
+
+plotRanTest()
+
+# simulated p values
+nSim <- 1000
+Xsim <- rep(NA,nSim) 
+dF <- readData()
+Xobs <- getMetric(dF)
+
+for (i in seq_len(nSim)) {
+  Xsim[i] <- getMetric(shuffleData(dF))
+}
+
+pVals <- list(Xobs,Xsim)
+getPVal(z=pVals)
+
+plotRanTest(pVals)
+```

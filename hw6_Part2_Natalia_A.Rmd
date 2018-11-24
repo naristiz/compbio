@@ -1,0 +1,64 @@
+---
+title: 'Homework #6 Part II'
+author: "Natalia Aristizábal"
+date: "10/3/2018"
+output: html_document
+---
+
+```{r, echo=TRUE}
+#z <- read.table("MyDataFile.csv",header=TRUE,sep=",", stringsAsFactors=FALSE)
+#str(z)#
+#summary(z)
+
+```
+
+
+#### Open libraries
+
+```{r, echo=TRUE}
+library(ggplot2) # for graphics
+library(MASS) # for maximum likelihood estimation
+```
+
+#### Read in data vector
+To illustrate, we will generate some fake data here:
+
+```{r, echo=TRUE}
+# quick and dirty, a truncated normal distribution to work on the solution set
+z <- rnorm(n=3000,mean=0.2)
+z <- data.frame(1:3000,z)
+names(z) <- list("ID","myVar")
+z <- z[z$myVar>0,]
+str(z)
+summary(z$myVar)
+```
+
+#### Plot histogram of data
+
+Plot a histogram of the data, using a modification of the code from lecture. Here we are switching from qplot to ggplot for more graphics options. We are also rescaling the y axis of the histogram from counts to density, so that the area under the histogram equals 1.0.
+
+```{r, echo=TRUE}
+p1 <- ggplot(data=z, aes(x=myVar, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+print(p1)
+```
+
+```{r, echo=TRUE}
+
+
+```
+
+```{r, echo=TRUE}
+
+
+```
+
+```{r, echo=TRUE}
+
+
+```
+
+```{r, echo=TRUE}
+
+
+```
