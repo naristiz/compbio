@@ -237,63 +237,6 @@ print(iris6)</code></pre>
 ##   &lt;fct&gt;           &lt;dbl&gt;     &lt;dbl&gt;       &lt;int&gt;
 ## 1 versicolor       6.48      2.99          17
 ## 2 virginica        6.79      3.06          39</code></pre>
-<div id="long-and-wide-data-formats" class="section level5">
-<h5>Long and wide data formats</h5>
-<p>Try converting the iris data set into the long format, with a column called “trait” to indicate sepal and petal length and width.</p>
-<p>Once you have converted to the long format, calculate the average for each combination of species and trait.</p>
-<pre class="r"><code>library(dplyr)
-library(tibble)
-library(tidyr)
-
-data(iris)
-head(iris)</code></pre>
-<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1          5.1         3.5          1.4         0.2  setosa
-## 2          4.9         3.0          1.4         0.2  setosa
-## 3          4.7         3.2          1.3         0.2  setosa
-## 4          4.6         3.1          1.5         0.2  setosa
-## 5          5.0         3.6          1.4         0.2  setosa
-## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
-<pre class="r"><code>glimpse(iris) </code></pre>
-<pre><code>## Observations: 150
-## Variables: 5
-## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9,...
-## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1,...
-## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5,...
-## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1,...
-## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, s...</code></pre>
-<pre class="r"><code>longDat &lt;- iris %&gt;%
-  gather(Sepal.Length:Petal.Width, key= &quot;trait&quot;, value=&quot;Response&quot;)
-
-head(longDat)</code></pre>
-<pre><code>##   Species        trait Response
-## 1  setosa Sepal.Length      5.1
-## 2  setosa Sepal.Length      4.9
-## 3  setosa Sepal.Length      4.7
-## 4  setosa Sepal.Length      4.6
-## 5  setosa Sepal.Length      5.0
-## 6  setosa Sepal.Length      5.4</code></pre>
-<pre class="r"><code>longDat %&gt;%
-  group_by(Species, trait) %&gt;%
-  summarize(AvgResponse=mean(Response)) %&gt;%
-  arrange(Species, trait)</code></pre>
-<pre><code>## # A tibble: 12 x 3
-## # Groups:   Species [3]
-##    Species    trait        AvgResponse
-##    &lt;fct&gt;      &lt;chr&gt;              &lt;dbl&gt;
-##  1 setosa     Petal.Length       1.46 
-##  2 setosa     Petal.Width        0.246
-##  3 setosa     Sepal.Length       5.01 
-##  4 setosa     Sepal.Width        3.43 
-##  5 versicolor Petal.Length       4.26 
-##  6 versicolor Petal.Width        1.33 
-##  7 versicolor Sepal.Length       5.94 
-##  8 versicolor Sepal.Width        2.77 
-##  9 virginica  Petal.Length       5.55 
-## 10 virginica  Petal.Width        2.03 
-## 11 virginica  Sepal.Length       6.59 
-## 12 virginica  Sepal.Width        2.97</code></pre>
-</div>
 </div>
 
 

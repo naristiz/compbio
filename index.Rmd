@@ -19,7 +19,7 @@ output: html_document
 
 #### [Homework 3 - September 11](markdown_beamer_presentations_hw3.pdf)
 
-#### [Homework 4 - September 19](hw4_sept_Natalia_A.html)
+#### [Homework 4 - September 19](hw4_sept19_Natalia_A.html)
 
 #### [Homework 5 - September 26](hw5_sept26_Natalia_A.html)
 
