@@ -23,4 +23,4 @@ output: html_document
 
 #### [Homework 5 - September 26](hw5_sept26_Natalia_A.html)
 
-
+#### [Homework 6 - October 3](hw6_Oct3_Natalia_A.html)
