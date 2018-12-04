@@ -1,0 +1,254 @@
+---
+title: "Spatial data visualization with 'tmap'"
+author: "Natalia Aristizábal"
+date: "12/05/2018"
+output: 
+  html_document:
+    highlight: tango
+    theme: cerulean
+---
+### Introduction to the package 'tmap' for Thematic Map Visualization
+
+##### Computational Biology (Bio381)
+
+Let's call the packages we are going to need
+```{r}
+library(tmap)
+library(tmaptools)
+```
+
+The author of Thematic Map Tools or **tmap** is Martijn Tennekes.
+
+Tmap uses other the following packages:
+
+- sp
+- raster
+- sf
+- rgdal
+- rgeos
+- classInt
+- RColorBrewer
+- grid (static maps)
+- leaflet (interactive maps)
+- mapview (interactive maps)
+
+
+
+##### A brief introduction about spatial data first: 
+
+Spatial data can be discrete or continuous.
+
+- Discrete spatial objects such as water bodies, roads, countries, counties or experimental sites use **vector data**, represented by a set of coordinate pairs (“longitude, latitude”), or a bounding box, and n number of attributes associated to them. One of the most common types of vector data are **shapefiles**.  
+
+- Continuous spatial fields such as temperature or elevation use **raster data**, represented by a spatial extent and the number of rows and columns of an area. 
+
+- Additional variables that describe the data are called **attributes**. 
+
+  >tmap grammar is very similar to what we have learned in ggplot2: 
+
+tm_shape() base function for spatial data
+
+tm_...() for layers, similar to ggplot2 geom_...(...), where you can add geometry, mapping and scaling. 
+
+Examples:
+
+- tm_symbols()
+- tm_raster()
+- tm_polygons()
+- tm_squares()
+- tm_bubbles()
+- tm_fill()
+
+tm_facets() for small multiples, similar to ggplot2 facet_wrap()
+
+tm_layout() for colors, margins, legends, compass, grid lines, etc. Similar to ggplot2 theme()
+
+##### Let's look at examples using shapefiles included in the package: 
+```{r}
+# call shapefiles included in the package
+data(World, metro)
+
+# define basic shape and layer elements
+tm_shape(World) +
+  tm_polygons()
+
+# explore variables included in the shapefiles
+names(c(World,metro))
+
+# add variables you want to visualize
+tm_shape(World) +
+  tm_polygons("HPI") # happy planet index
+
+# control colors and style
+tm_shape(World) +
+  tm_polygons("HPI",
+              style = "pretty",   
+              palette = "YlOrRd", 
+              id = "name", 
+              popup.var= TRUE,
+              colorNA = NULL) +
+  tm_shape(metro) + tm_dots()
+```
+
+- style is the classification method for data binning
+- palette is automatically determined by type of data, but easy to reverse palette scheme, just add -
+- id is the name of each polygon
+- popup is to see all the attributes in polygon
+- colorNA gets rid of missing values
+
+Let's go on with our example adding breaks to classify our data
+```{r}
+# we can define happines
+summary(World$HPI)
+happy <- c(12.78, 26.48, 44.71)
+
+# include breaks into continuous data
+tm_shape(World) +
+  tm_polygons("HPI",
+              breaks = happy,
+              labels = c("unhappy", "happy"),
+              colorNA = NULL)
+```
+
+And to this we could add an extra variable with tm_facets. Let's visualize the same data but separate by continent:
+```{r}
+tm_shape(World) +
+  tm_polygons("HPI",
+              breaks = happy,
+              labels = c("unhappy", "happy"),
+              colorNA = NULL) +
+  tm_facets(by = "continent") 
+
+# similar control to ggplot2 to add more to base map
+tm_shape(World) +
+  tm_polygons("HPI", 
+              breaks = happy,
+              colorNA = NULL,
+              border.col = "grey", 
+              border.alpha = 0.1) +
+  tm_symbols(size = "well_being",
+             col = "grey",
+             border.lwd = NA,
+             alpha = 0.5, # for transparency
+             shape = "footprint",
+             shapes.legend.fill = "blue") 
+```
+
+We can try plotting the same map with size = "life_exp" to see more interesting patterns. Ok. Y'all get the point. Showing these amount of data can make for some pretty cool maps, but also very busy so let's not get carried away. 
+
+Instead, let's compare two maps:
+```{r}
+tm_shape(World) +
+  tm_polygons(c("economy","HPI"), 
+              breaks = happy,
+              palette = "seq", # makes it gradient for continuous data
+              border.col = "grey", 
+              border.alpha = 0.1) +
+   # control legend
+  tm_legend(legend.position = c("left", "bottom")) 
+```
+
+Interesting to see that some countries with least developed or devoloping economies, like most in South America, have the highest happiness index (HPI). And countries like the U.S., Canada, and Australia with developed economies have the lowest HPI. 
+
+
+
+##### Let's look at examples with raster data: 
+```{r}
+# read raster data included in package
+data(land)
+
+# take a look at variables included
+names(land)
+```
+
+We can have discrete or continuous raster files. Let's look first at continuous raster data
+```{r}
+tm_shape(land) + 
+  tm_raster(col = "trees", 
+            palette = "cat") +
+  tm_legend(legend.position = c("left", "bottom"))
+
+# change color palettes and control classes shown
+tm_shape(land) + 
+  tm_raster(col = "trees", 
+            palette = "seq", 
+            style = "cont", 
+            n= 3) +
+    tm_legend(legend.position = c("left", "bottom"))
+```
+
+- palette "cat" for categorical data and "seq" for continuous
+- style "cat" for categorical representation and "cont" for gradual color change
+- n is the preferred number of classes when data is numeric
+
+Now let's look first at discrete raster data:
+```{r}
+tm_shape(land) + 
+  tm_raster(col = "cover_cls")
+```
+
+Cool initial map, but let's try to make it better and learn other functions
+```{r}
+tm_shape(land) + 
+  tm_raster(col = "cover_cls", 
+            title = "Global Land Cover Classes",
+            palette = ) +
+  tmap_style("col_blind") +
+  tm_legend(legend.position = c("left", "bottom")) +
+  tm_shape(World) +
+  tm_borders(col = "black") +
+  tm_layout(scale = .8, 
+            legend.position = c("left","bottom"))
+```
+
+We can understand a bit more about raster classes with argument legend.hist
+```{r}
+tm_shape(land) + 
+  tm_raster(col = "cover_cls", 
+            legend.hist = TRUE, 
+            legend.hist.title = "Frequency of land cover classes",
+            title = "Global Land Cover Classes") +
+  tmap_style("col_blind") +
+  tm_legend(legend.position = c("right", "bottom")) +
+  tm_shape(World) +
+  tm_borders(col = "black") +
+  tm_layout(scale = .7, 
+            legend.position = c("left","bottom"))
+```
+
+When can add to a raster file layers of shapefiles. This could be useful to show species distribution for example, or any other coordinates we would like to plot on top of a raster (i.e. elevation).
+
+Finally, let's take a look at our final map in interactive mode with plotted metropolitan areas around the world.
+
+Easy to switch between interactive and static maps
+
+- qtm() for interactive mode
+- ttm() # changes plotting mode
+- last_map()
+- tmap_mode("plot")
+- tmap_mode("view")
+
+```{r}
+ tm_shape(land) +
+   tm_raster(col = "cover_cls",
+             legend.hist = TRUE,
+             legend.hist.title = "Frequency of land cover classes",
+             title = "Global Land Cover Classes") +
+   tmap_style("col_blind") +
+   tm_legend(legend.position = c("right", "bottom")) +
+   tm_shape(World) +
+   tm_borders(col = "black") +
+   tm_layout(scale = .7,
+             legend.position = c("left","bottom")) +
+   tm_shape(metro) + tm_dots()
+```
+
+For extra maps and cool tips use **tmap_tip()**.
+
+You can save your plots similar to ggsave with **save_tmap()**.
+
+
+
+**Bibliography**
+
+Tennekes, M. (2018) tmap: Thematic Maps in R. Journal of Statistical Software. doi 10.18637/jss.v084.i06 
