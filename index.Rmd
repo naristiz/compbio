@@ -7,7 +7,6 @@ output:
   highlight: tango
   theme: cerulean
 ---
-
 ### University of Vermont
 
 #### Class assignments
@@ -16,21 +15,25 @@ output:
 ### My homeworks 
 
 
-Homework 1 - Setting up a webpage
+####  Homework 1 - Setting up a webpage
 
-[Homework 2 - Typora diagrams](hw2_attempt2.html)
+#### [Homework 2 - Typora diagrams](hw2_attempt2.html)
 
-[Homework 3 - Beamer Presentations](markdown_beamer_presentations_hw3.pdf)
+#### [Homework 3 - Beamer Presentations](markdown_beamer_presentations_hw3.pdf)
 
-[Homework 4 - Vectors in R and Regular Expressions](hw4_sept19_Natalia_A.html)
+#### [Homework 4 - Vectors in R and Regular Expressions](hw4_sept19_Natalia_A.html)
 
-[Homework 5 - Manipulating data using dplyr](hw5_sept26_Natalia_A.html)
+#### [Homework 5 - Manipulating data using dplyr](hw5_sept26_Natalia_A.html)
 
-[Homework 6 - Data distributions](hw6_Oct3_Natalia_A.html)
+#### [Homework 6 - Data distributions](hw6_Oct3_Natalia_A.html)
 
-[Homework 7 - Creating Fake Data Set to Explore Hypotheses](hw7_22Oct2018_NataliaA.html)
+#### [Homework 7 - Creating Fake Data Set to Explore Hypotheses](hw7_22Oct2018_NataliaA.html)
 
-[Tutorial on tmap package - html file](tmap_presentation.html)
+#### [Homework 8 - Structured Programming](hw8_Nov2018_NataliaA.html)
 
-[Tutorial on tmap package - rmd file](tmap_presentation.Rmd)
+#### [Homework 9 & 10 - For loops and randomization tests](hw10_Oct31_Natalia_A.html)
+
+#### [Tutorial on tmap package - html file](tmap_presentation.html)
+
+#### [Tutorial on tmap package - rmd file](tmap_presentation.Rmd)
 
