@@ -1,0 +1,91 @@
+---
+title: 'Homework #7'
+author: "Natalia Aristizábal"
+date: "10/17/2018"
+output: html_document
+---
+#### Creating Fake Data Sets To Explore Hypotheses
+
+To start simply, assume that the data in each of your treatment groups follow a normal distribution. Specify the sample sizes, means, and variances for each group that would be reasonable if your hypothesis were true.
+
+Using the methods we have covered in class, write a simple function to create a random data set that has these attributes. Organize these data into a data frame with the appropriate structure.
+
+```{r, echo=TRUE}
+# Hypothesis: Coffee yield will increase in farms with higher forest cover. 
+
+# data: fruit size as proxy for coffee yield (pollination services), mapped farm property with percentages of forest cover, bee exclusion experiments in coffee flowers (presence or absence of bees).
+
+# indepedent variable: amount of forest cover (continuous, real number)
+# dependent variable: coffee berry weight in milligrams (continuous, real number)
+
+# My data frame if my hypothesis were true
+var1 <- rnorm(n=100,mean=10,sd=2) # random values (independent variable)
+var2 <- 5.5 + var1*10 # a noisy linear relationship with var1 (dependent variable)
+
+ID <- seq_len(n) 
+regData <- data.frame(ID,var1,var2)
+head(regData)
+str(regData)
+
+# Bee presence experiments: categorical, binary (absence or presence of bees)
+nGroup = 2
+nName = c("Control", "Treatment")
+
+# number of sample sizes in each group.
+nSize = c(42, 37)
+nMean = c(10.1, 11)
+nSD = c(5,5)
+ID = 1:(sum(nSize)) # get an ID for each observation
+```
+
+Now write a simple function to analyze the data. Write anothe function to generate a useful graph of the data.
+
+```{r,echo=TRUE}
+#FUNCTION:basic regression analysis in R
+#INPUTS:random data generated above 
+#OUTPUTS:entire summary from linear model (lm)
+regModel = lm(var2 ~ var1) # regression of var2 as a function of var1
+summary(regModel)
+```
+
+Try running your analysis multiple times to get a feeling for how variable the results are with the same parameters, but different sets of random numbers.
+
+Now begin adjusting the means of the different groups. Given the sample sizes you have chosen, how small can the differences between the groups be (the “effect size”) for you to still detect a significant pattern (p < 0.05).
+
+```{r, echo=TRUE}
+# My data frame if my hypothesis were true but playing with the parameters
+var1 <- rnorm(n=2,mean=1,sd=1) # random values (independent variable)
+var2 <- 1.5 + var1*2 # a noisy linear relationship with var1 (dependent variable)
+ID <- seq_len(n) 
+regData <- data.frame(ID,var1,var2)
+head(regData)
+
+# number of sample sizes in each group.
+nSize = c(2, 2)
+nMean = c(0.5, 1.1)
+nSD = c(1,1)
+ID = 1:(sum(nSize)) # get an ID for each observation
+```
+
+The minimum sample size in order to detect a statistically significant effect is 3. 
+
+Now write a simple function to analyze the data (probably as an ANOVA or regression analysis, but possibly as a logistic regression or contingency table analysis. Write anothe function to generate a useful graph of the data.
+
+```{r,echo=TRUE}
+#FUNCTION:basic regression analysis in R playing with the parameters
+#INPUTS:random data generated above 
+#OUTPUTS:entire summary from linear model (lm)
+regModel = lm(var2 ~ var1) # regression of var2 as a function of var1
+summary(regModel)
+
+regPlot = ggplot(data=regData, aes(x=var1,y=var2))+
+                 geom_point() +
+                 stat_smooth(method=lm, se=0.99)
+```
+
+Again, run the model a few times with the same parameter set to get a feeling for the effect of random variation in the data.
+
+Write up your results in a markdown file. Be explicit in your explanation and justification for sample sizes, means, and variances.
+
+
+If you have time, try repeating this exercise with one of the more sophisticated distributions, such as the gamma or negative binomial (depending on the kind of data you have). You will have to spend some time figuring out by trial and error the parameter values you will need to generate appropriate means and variances of the different groups.
