@@ -1,16 +1,19 @@
 ---
 title: "Computational Biology Bio381"
-author: "*Natalia Aristizabal*"
-date: "*8/29/2018*"
+author: "*Natalia Aristizábal*"
+date: "*Fall 2018*"
 output: 
-  html_document:
-  highlight: tango
-  theme: cerulean
+    prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
 ---
-### University of Vermont
+<style type="text/css">
+  body {
+    background-color: #d5fdf4;
+  }
+</style>
 
-#### Class assignments
-#### Fall 2018
+## University of Vermont
 
 ### My homeworks 
 
@@ -39,3 +42,4 @@ output:
 
 #### [Tutorial on tmap package - rmd file](tmap_presentation.Rmd)
 
+![This is me. And these were my class assignments.](NataliaAristizabal_picture_website.jpeg)
