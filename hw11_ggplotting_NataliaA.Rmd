@@ -1,0 +1,188 @@
+---
+title: 'Homework 11: Advanced ggplotting'
+author: "Natalia Aristizábal"
+date: "12/11/2018"
+output: html_document
+---
+Using the fake data set created in homework #7 to explore ggplot2. 
+```{r}
+library(ggplot2)
+library(grid)
+library("RColorBrewer")
+  
+# first re-create fake data from hw #7 & #8
+forest <- rnorm(n=500,mean=10,sd=2) 
+noise <- rnorm(n=500, sd=10) 
+fruit <- 5.5 + forest*5 + noise
+
+# add new variables to have more to play with in graphs
+category <- rep(c("Ant", "No Ant"), each=250)  
+site = rep(c("A","B","C","D","E"), each=100, times=5)   # added 5 sites
+ 
+# put data into a dataframe
+ID <- seq_len(500) 
+fake_data <- data.frame(ID,forest,fruit,category, site)
+
+# look at the data
+head(fake_data)
+
+myColors <- brewer.pal(6,"Set1")
+names(myColors) <- levels(fake_data$category)
+```
+
+
+### Start making pretty graphs:
+
+Exploring the data with a histogram
+```{r}
+p1 <- ggplot(data=fake_data, aes(x=fruit, fill= site)) +
+  geom_histogram(binwidth = 10) +
+  ylab("Count of fruit sizes") +
+  xlab("Experimental site") + 
+  ggtitle("Histogram") +
+  theme_bw()
+
+print(p1)
+```
+
+Showing all four variables (2 continuous and 2 categorical)
+```{r}
+p2 <- ggplot(fake_data, aes(forest, fruit)) +
+  geom_point(aes(colour = factor(category), shape = factor(site))) +
+   labs(
+    x = "Coffee fruit size (mg)",
+    y = "Forest cover in 1 km radius (%)",
+    colour = "category",
+    shape = "site") +
+  scale_colour_manual(values = colors) +
+  theme_classic() +
+  ggtitle("Trends")
+  
+print(p2)
+```
+
+Another way of plotting all four variables 
+```{r}
+p3 <- ggplot(data=fake_data, aes(x=forest,y=fruit), col=site, fill=category) + 
+  facet_grid(~site) +
+  geom_boxplot(aes(y=fruit, lty=category), size=0.5) +
+  ylab("Coffee fruit size (mg)") +
+  xlab("Forest cover in 1 km radius (%)") + 
+  theme_dark() 
+  
+print(p3)
+```
+
+
+Now by separating by categorical data on grids and colors
+```{r}
+p4 <- ggplot(data=fake_data, aes(x=forest,y=fruit, group=interaction(site), col=site )) + 
+  facet_grid(~category) +
+  geom_point(alpha = 0.3) + 
+  ylab("Coffee fruit size (mg)") +
+  xlab("Forest cover in 1 km radius (%)") + 
+  theme_classic()
+  
+
+print(p4)
+
+```
+
+Trying different themes and colors
+```{r}
+# setting new color palette
+myColors <- brewer.pal(9,"Set1")
+names(myColors) <- levels(fake_data$category)
+
+ggplot(data=fake_data, aes(x=forest,y=fruit), col=site, color=category) + 
+  facet_grid(~site) +
+  geom_violin(aes(y=fruit, color=category), size=0.5) +
+  ylab("Coffee berry size (mg)") +
+  xlab("Forest cover in 1 km radius (%)") + 
+  scale_colour_manual(name="category", values=myColors)
+  theme_minimal()
+
+ggplot(data=fake_data, aes(x=forest,y=fruit), col=site, color=category) + 
+  facet_grid(~site) +
+  geom_jitter(aes(y=fruit, color=category), size=1) +
+  scale_colour_manual(name="category", values=myColors) +
+  ylab("Coffee berry size (mg)") +
+  xlab("Forest cover in 1 km radius (%)") + 
+  theme_gray()
+
+ggplot(data=fake_data, aes(x=forest,y=fruit), col=site, color=category) + 
+  facet_grid(~site) +
+  geom_jitter(aes(y=fruit, color=category), size=1) +
+  scale_colour_manual(name="category", values=myColors) +
+  theme_void()
+```
+
+
+Putting names to facet_wrap and moving the legend
+```{r}
+p5 <- ggplot(fake_data, aes(x=forest,y=fruit), fill= category) +
+  geom_jitter(aes(y=fruit, color=category), size=1) +
+  stat_smooth(method=lm) +
+  facet_wrap(~site) + 
+  theme(
+  legend.position = c(.65, .65),
+  legend.justification = c("right", "top"),
+  legend.box.just = "right",
+  legend.margin = margin(6, 6, 6, 6))
+
+print(p5)
+```
+
+
+Putting color into confidence intervals  
+```{r}
+p6 <- ggplot(data=fake_data, aes(x=forest,y=fruit), color=category) + 
+  geom_point(size=0.5, alpha = 0.8) +
+  geom_line(aes(y = fruit), size = 0.1) +
+  scale_colour_manual(values=c("yellow","black")) +
+  ylab("Coffee berry size (mg)") +
+  xlab("Forest cover in 1 km radius (%)") + 
+  geom_hline(yintercept=50, linetype="dashed") +
+  theme_bw() +
+  theme(legend.box.background = element_rect(),
+  legend.box.margin = margin(6, 6, 6, 6))
+
+print(p6)
+```
+
+When making many plots, I could create an object with my own theme with publication standards to save space on coding later on. As such:
+```{r}
+mytheme <- theme(axis.title.x = element_text(size=20, color = "black", face = "bold"), 
+                 axis.title.y = element_text(size=20, color = "black", face = "bold"),
+                 axis.text = element_text(size=15, color ="black"),legend.title=element_blank(),
+                 legend.position=c("right"),legend.background=element_rect(colour="black",size=0.4),
+                 panel.background = element_rect(colour = "black", size=0.5, fill=NA)) +
+  theme(legend.text=element_text(size=18)) 
+
+# create a color palette
+colors <- c("Ant" = "green", "No Ant" = "orange", "A" = "darkgreen", "B" = "orange", "C" = "brown", "D" = "pink", "E" = "blue")
+```
+
+```{r}
+favorite <- ggplot(data=fake_data, aes(x=forest,y=fruit), col=site, color=category) + 
+  facet_grid(~site) +
+  geom_violin(aes(y=fruit, color=category), size=0.5) +
+  ylab("Coffee berry size (mg)") +
+  xlab("Forest cover in 1 km radius (%)") + 
+  theme_test() + 
+  mytheme + 
+  #scale_fill_discrete(name = "Experimental sites")
+
+print(favorite)
+```
+
+We can put these graphs together side by side. 
+```{r}
+pushViewport(viewport(layout = grid.layout(3, 2)))
+print(p1, vp = viewport(layout.pos.row = 1, layout.pos.col = 1))
+print(p2, vp = viewport(layout.pos.row = 1, layout.pos.col = 2))
+print(p3, vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+print(p4, vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
+print(p5, vp = viewport(layout.pos.row = 3, layout.pos.col = 1))
+print(p6, vp = viewport(layout.pos.row = 3, layout.pos.col = 2))  
+```

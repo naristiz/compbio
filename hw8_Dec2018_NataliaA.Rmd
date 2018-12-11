@@ -1,0 +1,87 @@
+---
+title: "Homework 8: Functions"
+author: "Natalia Aristizábal"
+date: "12/6/2018"
+output: html_document
+  
+---
+#### Using code from homework #7 to learn how to create functions in structured programming format.
+
+Create a function to creake fake data, a function to analyse that data with a simple linear regression, and a function to graph the results of the analysis. 
+```{r,echo=TRUE}
+library(ggplot2)
+
+#FUNCTION: create fake data
+#INPUTS: parameters to generate fake data with normal distribution 
+#OUTPUTS: data frame with data with 2 variables with normal distribution
+
+create_fake_data <- function(size=100, xmean=10,xSD=2, noiseSD=10, slope=10) {
+      forest <- rnorm(n=size,mean=xmean,sd=xSD) 
+  noise <- rnorm(n=size, sd=noiseSD) 
+      fruit <- 5.5 + forest*slope + noise
+      # organize data into a dataframe
+      ID <- seq_len(100) 
+      fake_data <- data.frame(ID,forest,fruit)
+      return(fake_data)
+}
+      
+# check to see if function worked
+fake_data <- create_fake_data()
+head(fake_data)
+
+#FUNCTION:basic regression analysis in R
+#INPUTS:random data generated above 
+#OUTPUTS: summary from linear model (lm)
+regModel <- function(data=fake_data,x=fake_data$forest,y=fake_data$fruit) {
+  reg <- lm(y ~ x)
+  reg_sum <- summary(reg)
+  return(reg_sum)
+}
+
+# check to see if function worked
+regModel(create_fake_data())
+
+#FUNCTION:basic graph to represent regression analysis 
+#INPUTS:random data generated above 
+#OUTPUTS: graphic representation of the linear model 
+regGraph <- function() {
+  p <- ggplot(data=fake_data, aes(x=forest,y=fruit)) +
+                 geom_jitter() +
+                 stat_smooth(method=lm)
+  return(p)
+}
+
+# check to see if function worked
+regGraph()
+```
+
+Now let's tweek one of the functions: 'regGraph'
+```{r}
+# changing the last function to graph to plot more information and an improved version of that graph with more details: 
+
+#FUNCTION:advanced graph to represent regression analysis 
+#INPUTS:random dataset generated with create_fake_data() 
+#OUTPUTS: advanced graphic representation of the linear model 
+regGraph <- function(){
+  p <- ggplot(data=fake_data, aes(x=forest,y=fruit)) +
+    geom_line(linetype="dotted", color="red", size=1) +
+    geom_point(color="blue", size=0.5) +
+    stat_smooth(method=lm) +
+    labs(x = "Coffee fruit size (mg)",
+         y = "Forest cover in 1 km radius (%)") +
+  theme_classic() +
+  ggtitle("Graph with more details") +
+    theme(axis.title.x = element_text(size=20, color = "black", face = "bold"), 
+                 axis.title.y = element_text(size=20, color = "black", face = "bold"),
+                 axis.text = element_text(size=15, color ="black"),legend.title=element_blank(),
+                 legend.position=c("right"),legend.background=element_rect(colour="black",size=0.4),
+                 panel.background = element_rect(colour = "black", size=0.5, fill=NA)) +
+  theme(legend.text=element_text(size=18)) 
+  
+  return(p)
+}
+
+# check to see if new function worked
+regGraph()
+```
+Excellent! The functions are working and one function can feed into the next one. 
