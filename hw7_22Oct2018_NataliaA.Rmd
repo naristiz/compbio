@@ -1,0 +1,162 @@
+---
+title: 'Homework #7'
+author: "Natalia Aristizábal"
+date: "10/17/2018"
+output: 
+  html_document:
+    highlight: tango
+    theme: cerulean
+---
+#### Creating Fake Data Sets To Explore Hypotheses
+
+First, create any fake data, specify sample sizes, means, and variances.Then write a function to create random data set with those attributes organized into a data frame. 
+
+**Hypothesis**: Coffee yield will be greater in farms with higher forest cover. 
+
+**Data**: fruit size as proxy for coffee yield (pollination services), mapped farm property with percentages of forest cover, bee exclusion experiments in coffee flowers (presence or absence of bees).
+
+**Indepedent variable**: amount of forest cover (continuous, real number)
+
+**Dependent variable**: coffee berry weight in milligrams (continuous, real number)
+
+
+#### Initial random data with normal distribution and under parameters as if my hypothesis were true
+```{r, echo=TRUE}
+library(ggplot2)
+
+# Create random data
+forest <- rnorm(n=100,mean=10,sd=2) # independent variable
+noise <- rnorm(n=100, sd=10) # a noisy linear relationship with x
+fruit <- 5.5 + forest*10 + noise # dependent variable
+
+# with basic r
+plot(forest,fruit)
+
+# organize data into a dataframe
+ID <- seq_len(100) 
+regData <- data.frame(ID,forest,fruit)
+
+# peak into the data frame to check
+head(regData)
+str(regData)
+```
+
+#### Write simple code to analyze with a regression (fruit as function of forest) and visualize your data with ggplot2.  
+```{r}
+# simple linear regression
+regModel <- lm(fruit ~ forest, regData) 
+
+# regression's stats
+summary(regModel)
+
+# plot the data with ggplot2
+regPlot <- ggplot(data=regData, aes(x=forest,y=fruit)) +
+                 geom_jitter() +
+                 stat_smooth(method=lm) 
+
+print(regPlot)
+```
+
+I ran the regression several times with different random set of numbers but with the same parameters and it always showed a significant positive relationship: The more forest cover, the bigger the coffee berries. 
+
+The p-value was always < 2.2e-16, the R-squared between 0.7-0.8. The slope and standard variation only changed slightly. 
+
+
+
+#### **Adjust the mean** of the data but keep all other parameters and sample size same as initial dataset. How small can the differences between the groups be (the “effect size”) for you to still detect a significant pattern (p < 0.05)?
+```{r, echo=TRUE}
+# change the mean
+forest <- rnorm(n=100,mean=0.001,sd=2) 
+noise <- rnorm(n=100, sd=10) 
+fruit <- 5.5 + forest*10 + noise 
+
+# organize data into a dataframe
+ID <- seq_len(100) 
+regData <- data.frame(ID,forest,fruit)
+
+# peak into the data frame to check
+head(regData)
+str(regData)
+
+# simple linear regression
+regModel <- lm(fruit ~ forest, regData) 
+
+# regression's stats
+summary(regModel)
+
+# plot the data with ggplot2
+regPlot <- ggplot(data=regData, aes(x=forest,y=fruit)) +
+                 geom_jitter() +
+                 stat_smooth(method=lm) 
+
+print(regPlot)
+```
+
+I reduced the mean gradually until mean=0.001 and increased until mean=99.9, and still got a p-value < 2.2^-16.
+
+
+
+#### **Adjust the sample size** of the data but keep all other parameters same as initial dataset. What is the minimum sample size you would need in order to detect a statistically significant effect? 
+```{r, echo=TRUE}
+# decrease sample size
+forest <- rnorm(n=8,mean=10,sd=2) 
+noise <- rnorm(n=8, sd=10) 
+fruit <- 5.5 + forest*10 + noise 
+
+# organize data into a dataframe
+ID <- seq_len(8) 
+regData <- data.frame(ID,forest,fruit)
+
+# peak into the data frame to check
+head(regData)
+str(regData)
+
+# simple linear regression
+regModel <- lm(fruit ~ forest, regData) 
+
+# regression's stats
+summary(regModel)
+
+# plot the data with ggplot2
+regPlot <- ggplot(data=regData, aes(x=forest,y=fruit)) +
+                 geom_jitter() +
+                 stat_smooth(method=lm) 
+
+print(regPlot)
+```
+
+With a sample size of 3, 4, and 5 ocassionally you find a significant relationship, but more often you don't. When the sample size is 6 or 7, most times you will find a p-value <0.05, but ocassionally you will not. I ran the model dozens of times with a sample size of 8 and every time it returned a p-value < 0.05. I guess the minimum sample size I is 8. 
+
+
+#### **Adjust the variance** of the data but keep all other parameters and sample size same as initial dataset. How does the variance influence the detection of a statistically significant result? 
+```{r, echo=TRUE}
+# change variance
+forest <- rnorm(n=100,mean=10,sd=0.4) 
+noise <- rnorm(n=100, sd=10) 
+fruit <- 5.5 + forest*10 + noise 
+
+# organize data into a dataframe
+ID <- seq_len(100) 
+regData <- data.frame(ID,forest,fruit)
+
+# peak into the data frame to check
+head(regData)
+str(regData)
+
+# simple linear regression
+regModel <- lm(fruit ~ forest, regData) 
+
+# regression's stats
+summary(regModel)
+
+# plot the data with ggplot2
+regPlot <- ggplot(data=regData, aes(x=forest,y=fruit)) +
+                 geom_jitter() +
+                 stat_smooth(method=lm) 
+
+print(regPlot)
+```
+
+- The variance could increase all the way to sd=500 and it returned the same p-value. 
+- Decreasing sd=0.1 makes the p-value fluctuate, sometimes less than 0.05 and sometimes more. 
+- At sd= 0.4 it will still return a significant p-value, but at sd=03 it fluctuates between significant and not. 
